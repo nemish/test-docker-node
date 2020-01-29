@@ -5,10 +5,10 @@ let client = null;
 const getClient = async () => {
   if (!client) {
     client = new Client({
-      host: "db",
+      host: "test-docker-node-db",
     });
+    await client.connect();
   }
-  await client.connect();
   return client;
 };
 

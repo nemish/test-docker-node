@@ -9,7 +9,6 @@ app.get("/", async (req, res) => {
   const db = await getClient();
   const result = await db.query("SELECT id, username, email FROM userprofile");
   console.log({ result });
-  await db.end();
   res.send({ items: result.rows });
 });
 
@@ -20,3 +19,13 @@ app.get("/user", (req, res) => {
 app.listen(PORT, () => {
   console.log("listen on port", PORT);
 });
+
+const shutDown = async () => {
+  console.log("cleaning up...");
+  const db = await getClient();
+  db.end();
+  console.log("clean!");
+};
+
+process.on("SIGTERM", shutDown);
+process.on("SIGINT", shutDown);
