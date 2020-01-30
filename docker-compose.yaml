@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: .
+    environment:
+      - PORT=3000
+      - PGHOST=db
+      - PGUSER=testdockernodedbuser
+      - PGPASSWORD=passwd
+      - PGDATABASE=testdockernodedb
+    networks:
+      - isolated-network
+    ports:
+      - 8081:3000
+    volumes:
+      - ./:/app
+      - api-volume:/var/lib/data
+    depends_on:
+      - db
+
+  db:
+    # image: postgres
+    build:
+      context: ./db-service
+    networks:
+      - isolated-network
+    volumes:
+      - db-volume:/var/lib/postgres/data
+    ports:
+      - 8088:5432
+
+volumes:
+  api-volume:
+  db-volume:
+
+networks:
+  isolated-network:

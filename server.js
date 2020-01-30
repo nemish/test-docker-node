@@ -7,13 +7,15 @@ const PORT = process.env.PORT;
 
 app.get("/", async (req, res) => {
   const db = await getClient();
-  const result = await db.query("SELECT id, username, email FROM userprofile");
+  const result = await db.query(
+    "SELECT id, username, email FROM public.userprofile"
+  );
   console.log({ result });
   res.send({ items: result.rows });
 });
 
 app.get("/user", (req, res) => {
-  res.send("This is user");
+  res.send("This is user 1");
 });
 
 app.listen(PORT, () => {
